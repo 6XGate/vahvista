@@ -29,7 +29,7 @@ export interface Predicate<T = any> extends Rules<T>, PredicateInterface<T> {
 
 type PredicateFactory<T = any> = (...args: unknown[]) => Predicate<T>;
 
-export class Validation {
+export class Vahvista {
     register<T = unknown>(name: keyof Rules, validator: Validator<T>): Predicate<T> {
         Object.defineProperty(Predicate.prototype, name, {
             configurable: false,
@@ -43,7 +43,7 @@ export class Validation {
 
         const predicate = Predicate.make<T>(this, [validator]);
 
-        Object.defineProperty(Validation.prototype, name, {
+        Object.defineProperty(Vahvista.prototype, name, {
             configurable: false,
             enumerable:   false,
             writable:     false,
@@ -67,7 +67,7 @@ export class Validation {
 
         const predicateFactory = (...args: unknown[]): Predicate<T> => Predicate.make<T>(this, [factory(...args)]);
 
-        Object.defineProperty(Validation.prototype, name, {
+        Object.defineProperty(Vahvista.prototype, name, {
             configurable: false,
             enumerable:   false,
             writable:     false,
@@ -79,7 +79,7 @@ export class Validation {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Validation extends Rules {
+export interface Vahvista extends Rules {
     // Defined to ensure extensibility, empty because the class does the rest.
 }
 
@@ -95,10 +95,10 @@ function invokePredicate(this: Predicate, value: any): boolean {
 
 export class Predicate<T = any> {
     readonly ["@isPredicate"] = true;
-    core: Validation;
+    core: Vahvista;
     chain: Validator<T>[];
 
-    static make<O>(core: Validation, chain: Validator<O>[]): Predicate<O> {
+    static make<O>(core: Vahvista, chain: Validator<O>[]): Predicate<O> {
         const inner = new Predicate<O>(core, chain);
         let predicate = Object.assign(invokePredicate.bind(inner), inner);
         predicate = Object.setPrototypeOf(predicate, Predicate.prototype) as Predicate<O>;
@@ -106,15 +106,15 @@ export class Predicate<T = any> {
         return predicate;
     }
 
-    private constructor(core: Validation, chain: Validator<T>[]) {
+    private constructor(core: Vahvista, chain: Validator<T>[]) {
         this.core = core;
         this.chain = chain;
     }
 }
 
-export const validation = new Validation();
+export const vahvista = new Vahvista();
 
-validation.factory("or", (...possibilities: Predicate[]) => value => {
+vahvista.factory("or", (...possibilities: Predicate[]) => value => {
     for (const possibility of possibilities) {
         if (possibility(value)) {
             return true;

@@ -9,6 +9,7 @@ import {
     isNumber,
     isObject,
     isString,
+    isRegExp,
     isMap,
     isSet,
     isWeakSet,
@@ -84,4 +85,8 @@ export function hasBase(target: any, key: any): boolean {
     }
 
     return false;
+}
+
+export function eqOrRegExp(subject: string, test: string|RegExp): boolean {
+    return isRegExp(test) ? test.test(subject) : subject === test;
 }

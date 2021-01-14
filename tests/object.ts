@@ -1,5 +1,5 @@
 import test from "ava";
-import validation from "../src";
+import vahvista from "../src";
 import { passOneFailMany } from "./utils/macros";
 
 function block(code: () => void): void {
@@ -10,7 +10,7 @@ test("bad shape: root", t => {
     const oops = 5;
     t.throws(() => {
         // @ts-expect-error Testing checks in shape
-        validation.shape(oops)(oops);
+        vahvista.shape(oops)(oops);
     }, {
         instanceOf: TypeError,
         message:    "Shape input not a valid value, expected a predicate, array, or object",
@@ -21,7 +21,7 @@ test("bad shape: element", t => {
     const oops = { bad: 5 };
     t.throws(() => {
         // @ts-expect-error Testing checks in shape
-        validation.shape(oops)(oops);
+        vahvista.shape(oops)(oops);
     }, {
         instanceOf: TypeError,
         message:    "Shape has invalid property at bad, expected a predicate, array, or object",
@@ -30,12 +30,12 @@ test("bad shape: element", t => {
 
 block(() => {
     const shape = {
-        base:   validation.string.startsWith("base_").minLength(6),
-        points: [validation.integer],
+        base:   vahvista.string.startsWith("base_").minLength(6),
+        points: [vahvista.integer],
         names:  {
-            first: validation.string.notEmpty,
-            last:  validation.string.notEmpty,
-        }
+            first: vahvista.string.notEmpty,
+            last:  vahvista.string.notEmpty,
+        },
     };
 
     const good = {
@@ -67,5 +67,5 @@ block(() => {
         10,
     ];
 
-    test("shape", passOneFailMany(validation.shape(shape)), good, notGood);
+    test("shape", passOneFailMany(vahvista.shape(shape)), good, notGood);
 });

@@ -1,16 +1,17 @@
 import { isObject } from "lodash";
+import { eqOrRegExp } from "../utils/checkers";
 import type { Namable } from "../utils/types";
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 export const namable = {
-    name: validation.factory<Namable>(
+    name: vahvista.factory<Namable>(
         "name",
-        (name: string) => value => isObject(value) && "name" in value && value.name === name,
+        (match: string|RegExp) => value => isObject(value) && "name" in value && eqOrRegExp(value.name, match),
     ),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules<T> {
-        name(name: string): Predicate<T>;
+        name(match: string|RegExp): Predicate<T>;
     }
 }

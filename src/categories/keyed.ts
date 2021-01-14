@@ -2,16 +2,16 @@
 import { every, some } from "lodash";
 import { hasBase } from "../utils/checkers";
 import type { KeyType } from "../utils/types";
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 export const keyed = {
-    has:    validation.factory("has", (...keys: any[]) => value => every(keys, key => hasBase(value, key))),
-    hasAny: validation.factory("hasAny", (...keys: any[]) => value => some(keys, key => hasBase(value, key))),
+    has:    vahvista.factory("has", (...keys: readonly any[]) => value => every(keys, key => hasBase(value, key))),
+    hasAny: vahvista.factory("hasAny", (...keys: readonly any[]) => value => some(keys, key => hasBase(value, key))),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules<T> {
-        has(...keys: KeyType<T>[]): Predicate<T>;
-        hasAny(...keys: KeyType<T>[]): Predicate<T>;
+        has(...keys: readonly KeyType<T>[]): Predicate<T>;
+        hasAny(...keys: readonly KeyType<T>[]): Predicate<T>;
     }
 }

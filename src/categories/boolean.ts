@@ -1,16 +1,16 @@
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 // noinspection PointlessBooleanExpressionJS
 export const boolean = {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
-    isTrue:   validation.register<boolean>("true", value => value === true),
-    isTruthy: validation.register<boolean>("truthy", value => Boolean(value)),
+    isTrue:   vahvista.register<boolean>("true", value => value === true),
+    isTruthy: vahvista.register<boolean>("truthy", value => Boolean(value)),
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
-    isFalse:  validation.register<boolean>("false", value => value === false),
-    isFalsy:  validation.register<boolean>("falsy", value => !value),
+    isFalse:  vahvista.register<boolean>("false", value => value === false),
+    isFalsy:  vahvista.register<boolean>("falsy", value => !value),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules<T> {
         true: Predicate<boolean>;
         truthy: Predicate<T>;

@@ -1,63 +1,63 @@
 import { isFinite, isInteger } from "lodash";
 import { inRange, isInfinite } from "../utils/checkers";
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 export const number = {
-    isNegative: validation.register<number>(
+    isNegative: vahvista.register<number>(
         "negative",
         value => value < 0,
     ),
-    isPositive: validation.register<number>(
+    isPositive: vahvista.register<number>(
         "positive",
         value => value > 0,
     ),
-    isFinite: validation.register<number>(
+    isFinite: vahvista.register<number>(
         "finite",
         isFinite,
     ),
-    isInfinite: validation.register<number>(
+    isInfinite: vahvista.register<number>(
         "infinite",
         isInfinite,
     ),
-    isUint32: validation.register<number>(
+    isUint32: vahvista.register<number>(
         "uint32",
         value => isInteger(value) && inRange(value, 0, 4294967295),
     ),
-    isUint16: validation.register<number>(
+    isUint16: vahvista.register<number>(
         "uint16",
         value => isInteger(value) && inRange(value, 0, 65535),
     ),
-    isUint8: validation.register<number>(
+    isUint8: vahvista.register<number>(
         "uint8",
         value => isInteger(value) && inRange(value, 0, 255),
     ),
-    isInt32: validation.register<number>(
+    isInt32: vahvista.register<number>(
         "int32",
         value => isInteger(value) && inRange(value, -2147483648, 2147483647),
     ),
-    isInt16: validation.register<number>(
+    isInt16: vahvista.register<number>(
         "int16",
         value => isInteger(value) && inRange(value, -32768, 32767),
     ),
-    isInt8: validation.register<number>(
+    isInt8: vahvista.register<number>(
         "int8",
         value => isInteger(value) && inRange(value, -128, 127),
     ),
-    isInteger: validation.register<number>(
+    isInteger: vahvista.register<number>(
         "integer",
         isInteger,
     ),
-    isIntegerOrInfinite: validation.register<number>(
+    isIntegerOrInfinite: vahvista.register<number>(
         "integerOrInfinite",
         value => isInteger(value) || isInfinite(value),
     ),
-    inRange: validation.factory<number>(
+    inRange: vahvista.factory<number>(
         "inRange",
         (min: number, max: number) => value => inRange(value, min, max),
     ),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules {
         negative: Predicate<number>;
         positive: Predicate<number>;

@@ -1,8 +1,8 @@
 import test from "ava";
-import validation from "../src";
+import vahvista from "../src";
 import { passOneFailMany } from "./utils/macros";
 
-const tuple = validation.tuple(validation.string, validation.number, validation.boolean);
+const tuple = vahvista.tuple(vahvista.string, vahvista.number, vahvista.boolean);
 
 test("not a tuple", passOneFailMany(tuple),
     [ "hey", 4, false ],

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import test from "ava";
-import validation from "../src";
+import vahvista from "../src";
 import { passManyFailMany, passOneFailOne } from "./utils/macros";
 
 const block = (inner: () => void): void => { inner() };
@@ -19,7 +19,7 @@ block(() => {
     const good = { name: 1, date: 2, title: 3, extra: 4 };
     const bad = { division: 1, base: 2, term: 3, extra: 4 };
 
-    test("has: property keys: strings", passManyFailMany(validation.has("name", "date", "title")),
+    test("has: property keys: strings", passManyFailMany(vahvista.has("name", "date", "title")),
         [ good, mapObj(good), setObj(good) ],
         [ bad, mapObj(bad), setObj(bad) ],
     );
@@ -29,7 +29,7 @@ block(() => {
     const good = [ "name", "date", "title", "extra" ];
     const bad = [ "name", "date" ];
 
-    test("has: property keys: numbers", passManyFailMany(validation.has(0, 1, 2)),
+    test("has: property keys: numbers", passManyFailMany(vahvista.has(0, 1, 2)),
         [ good, mapArr(good), setArr(good) ],
         [ bad, mapArr(bad), setArr(bad) ],
     );
@@ -41,7 +41,7 @@ block(() => {
     const bad = [ [ 0, "name" ], [ 1, "date" ], [ "name", 0 ], [ "date", 1 ] ] as
         [number|string, number|string][];
 
-    test("has: property keys: mixed", passManyFailMany(validation.has(0, 1, "name", "date", "title")),
+    test("has: property keys: mixed", passManyFailMany(vahvista.has(0, 1, "name", "date", "title")),
         [ mapEnt(good), setEnt(good) ],
         [ bad, mapEnt(bad), setEnt(bad) ],
     );
@@ -56,7 +56,7 @@ block(() => {
     const bad = [ [ keys[0], 0 ], [ keys[1], 1 ] ] as
         [object, unknown][];
 
-    test("has: any kind of keys", passManyFailMany(validation.has(...keys)),
+    test("has: any kind of keys", passManyFailMany(vahvista.has(...keys)),
         [ mapFun(good), setFun(good), weakMap(good), weakSet(good) ],
         [ mapFun(bad), setFun(bad), weakMap(bad), weakSet(bad) ],
     );
@@ -66,7 +66,7 @@ block(() => {
     const good = { name: 1, date: 2, term: 3, extra: 4 };
     const bad = { division: 1, base: 2, term: 3, extra: 4 };
 
-    test("has any: property keys: strings", passManyFailMany(validation.hasAny("name", "date", "title")),
+    test("has any: property keys: strings", passManyFailMany(vahvista.hasAny("name", "date", "title")),
         [ good, mapObj(good), setObj(good) ],
         [ bad, mapObj(bad), setObj(bad) ],
     );
@@ -76,7 +76,7 @@ block(() => {
     const good = [ "name", "date", "title", "extra" ];
     const bad = [] as string[];
 
-    test("has any: property keys: numbers", passManyFailMany(validation.hasAny(0, 1, 2)),
+    test("has any: property keys: numbers", passManyFailMany(vahvista.hasAny(0, 1, 2)),
         [ good, mapArr(good), setArr(good) ],
         [ bad, mapArr(bad), setArr(bad) ],
     );
@@ -88,7 +88,7 @@ block(() => {
     const bad = [ [ 3, "name" ], [ 4, "date" ], [ "set", 0 ], [ "map", 1 ] ] as
         [number|string, number|string][];
 
-    test("has any: property keys: mixed", passManyFailMany(validation.hasAny(0, 1, "name", "date", "title")),
+    test("has any: property keys: mixed", passManyFailMany(vahvista.hasAny(0, 1, "name", "date", "title")),
         [ mapEnt(good), setEnt(good) ],
         [ mapEnt(bad), setEnt(bad) ],
     );
@@ -103,10 +103,10 @@ block(() => {
     const bad = [ [ ekeys[0], 0 ], [ ekeys[1], 1 ] ] as
         [object, unknown][];
 
-    test("has any: any kind of keys", passManyFailMany(validation.hasAny(...keys)),
+    test("has any: any kind of keys", passManyFailMany(vahvista.hasAny(...keys)),
         [ mapFun(good), setFun(good), weakMap(good), weakSet(good) ],
         [ mapFun(bad), setFun(bad), weakMap(bad), weakSet(bad) ],
     );
 });
 
-test("has on invalid input", passOneFailOne(validation.has("key")), { key: 1 }, 4);
+test("has on invalid input", passOneFailOne(vahvista.has("key")), { key: 1 }, 4);

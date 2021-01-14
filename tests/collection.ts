@@ -1,23 +1,23 @@
 import test from "ava";
-import validation from "../src";
+import vahvista from "../src";
 import { passManyFailMany } from "./utils/macros";
 
-test("is empty", passManyFailMany(validation.empty),
+test("is empty", passManyFailMany(vahvista.empty),
     [ "", [], {}, new Set(), new Map() ],
     [ "2", [2], { a: 2 }, new Set([2]), new Map([[ 1, 2 ]]) ],
 );
 
-test("is not empty", passManyFailMany(validation.notEmpty),
+test("is not empty", passManyFailMany(vahvista.notEmpty),
     [ "2", [2], { a: 2 }, new Set([2]), new Map([[ 1, 2 ]]) ],
     [ "", [], {}, new Set(), new Map() ],
 );
 
-test("is size", passManyFailMany(validation.size(1)),
+test("is size", passManyFailMany(vahvista.size(1)),
     [ "2", [2], { a: 2 }, new Set([2]), new Map([[ 1, 2 ]]) ],
     [ "23", [ 2, 3 ], { a: 2, b: 3 }, new Set([ 2, 3 ]), new Map([ [ 1, 2 ], [ 2, 3 ] ]) ],
 );
 
-test("is max size", passManyFailMany(validation.maxSize(2)),
+test("is max size", passManyFailMany(vahvista.maxSize(2)),
     [
         "23",
         [ 2, 3 ],
@@ -39,7 +39,7 @@ test("is max size", passManyFailMany(validation.maxSize(2)),
     ],
 );
 
-test("is min size", passManyFailMany(validation.minSize(2)),
+test("is min size", passManyFailMany(vahvista.minSize(2)),
     [
         "23",
         [ 2, 3 ],

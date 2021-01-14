@@ -1,8 +1,8 @@
 import test from "ava";
-import validation from "../src";
+import vahvista from "../src";
 import { passManyFailMany } from "./utils/macros";
 
-const union = validation.or(validation.string, validation.integer, validation.shape([validation.string]).maxLength(2));
+const union = vahvista.or(vahvista.string, vahvista.integer, vahvista.shape([vahvista.string]).maxLength(2));
 
 test("union", passManyFailMany(union),
     [

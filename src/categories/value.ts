@@ -1,43 +1,43 @@
 import { isNumber, toFinite } from "lodash";
 import type { Value } from "../utils/types";
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 export const value = {
-    isOneOf: validation.factory<Value>(
+    isOneOf: vahvista.factory<Value>(
         "oneOf",
-        (...values: Value[]) => _value => (isNumber(_value) ?
+        (...values: readonly Value[]) => _value => (isNumber(_value) ?
             values.map(toFinite).includes(_value) :
             values.includes(_value)),
     ),
-    isEqual: validation.factory<Value>(
+    isEqual: vahvista.factory<Value>(
         "equal",
         (target: Value) => _value => _value === target,
     ),
-    isNotEqual: validation.factory<Value>(
+    isNotEqual: vahvista.factory<Value>(
         "notEqual",
         (target: Value) => _value => _value !== target,
     ),
-    isGreaterThan: validation.factory<Value>(
+    isGreaterThan: vahvista.factory<Value>(
         "greaterThan",
         (target: Value) => _value => _value > target,
     ),
-    isGreaterThanOrEqual: validation.factory<Value>(
+    isGreaterThanOrEqual: vahvista.factory<Value>(
         "greaterThanOrEqual",
         (target: Value) => _value => _value >= target,
     ),
-    isLessThan: validation.factory<Value>(
+    isLessThan: vahvista.factory<Value>(
         "lessThan",
         (target: Value) => _value => _value < target,
     ),
-    isLessThanOrEqual: validation.factory<Value>(
+    isLessThanOrEqual: vahvista.factory<Value>(
         "lessThanOrEqual",
         (target: Value) => _value => _value <= target,
     ),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules {
-        oneOf<T>(...values: T[]): Predicate<T>;
+        oneOf<T>(...values: readonly T[]): Predicate<T>;
         equal<T>(target: T): Predicate<T>;
         notEqual<T>(target: T): Predicate<T>;
         greaterThan<T>(target: T): Predicate<T>;

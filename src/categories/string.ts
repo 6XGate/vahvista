@@ -1,15 +1,16 @@
+import { toString } from "lodash";
 import { ignore } from "../utils/checkers";
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 export const string = {
-    isAlphabetic:   validation.register<string>("alphabetic", value => (/^[A-Za-z]+$/u).test(value)),
-    isAlphaNumeric: validation.register<string>("alphaNumeric", value => (/^[A-Za-z\d]+$/u).test(value)),
-    isDateLike:     validation.register<string>("dateLike", value => !isNaN(Date.parse(value))),
-    isNumeric:      validation.register<string>("numeric", value => (/^[+-]?\d+(?:\.\d+)?$/u).test(value)),
-    isIntegral:     validation.register<string>("integral", value => (/^[+-]?\d+$/u).test(value)),
-    isLowerCase:    validation.register<string>("lowerCase", value => value === value.toLowerCase()),
-    isUpperCase:    validation.register<string>("upperCase", value => value === value.toUpperCase()),
-    isUrl:          validation.register<string>("url", value => {
+    isAlphabetic:   vahvista.register<string>("alphabetic", value => (/^[A-Za-z]+$/u).test(value)),
+    isAlphaNumeric: vahvista.register<string>("alphaNumeric", value => (/^[A-Za-z\d]+$/u).test(value)),
+    isDateLike:     vahvista.register<string>("dateLike", value => !isNaN(Date.parse(value))),
+    isNumeric:      vahvista.register<string>("numeric", value => (/^[+-]?\d+(?:\.\d+)?$/u).test(value)),
+    isIntegral:     vahvista.register<string>("integral", value => (/^[+-]?\d+$/u).test(value)),
+    isLowerCase:    vahvista.register<string>("lowerCase", value => value === toString(value).toLowerCase()),
+    isUpperCase:    vahvista.register<string>("upperCase", value => value === toString(value).toUpperCase()),
+    isUrl:          vahvista.register<string>("url", value => {
         try {
             ignore(new URL(value));
 
@@ -18,13 +19,13 @@ export const string = {
             return false;
         }
     }),
-    contains:   validation.factory<string>("contains", (target: string) => value => value.includes(target)),
-    endsWith:   validation.factory<string>("endsWith", (target: string) => value => value.endsWith(target)),
-    startsWith: validation.factory<string>("startsWith", (target: string) => value => value.startsWith(target)),
-    matches:    validation.factory<string>("matches", (regex: RegExp) => value => regex.test(value)),
+    contains:   vahvista.factory<string>("contains", (target: string) => value => toString(value).includes(target)),
+    endsWith:   vahvista.factory<string>("endsWith", (target: string) => value => toString(value).endsWith(target)),
+    startsWith: vahvista.factory<string>("startsWith", (target: string) => value => toString(value).startsWith(target)),
+    matches:    vahvista.factory<string>("matches", (regex: RegExp) => value => regex.test(value)),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules {
         alphabetic: Predicate<string>;
         alphaNumeric: Predicate<string>;

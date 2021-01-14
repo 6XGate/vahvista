@@ -1,7 +1,7 @@
 import { every, isArray, isObject } from "lodash";
 import { isPredicate } from "../utils/checkers";
 import type { ArrayShape, ObjectShape, Shape, TypeBasedOnShape } from "../utils/types";
-import { validation } from "../validation";
+import { vahvista } from "../vahvista";
 
 function isObjectValue(value: unknown): value is { [key: string]: unknown } {
     return isObject(value);
@@ -52,10 +52,10 @@ function shapeImpl<S extends Shape>(shape: S, value: unknown, path?: string): bo
 }
 
 export const object = {
-    isShape: validation.factory("shape", <S extends Shape>(shape: S) => (value): value is TypeBasedOnShape<S> => shapeImpl(shape, value)),
+    isShape: vahvista.factory("shape", <S extends Shape>(shape: S) => (value): value is TypeBasedOnShape<S> => shapeImpl(shape, value)),
 };
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules {
         shape<S extends Shape>(shape: S): Predicate<TypeBasedOnShape<S>>;
     }

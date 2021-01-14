@@ -1,13 +1,13 @@
-import type { Predicate } from "../validation";
-import { validation } from "../validation";
+import type { Predicate } from "../vahvista";
+import { vahvista } from "../vahvista";
 
 export const tuple = {
-    isTuple: validation.factory("tuple", (...predicates: Predicate[]) => (value): boolean => {
+    isTuple: vahvista.factory("tuple", (...predicates: Predicate[]) => (value): boolean => {
         if (!Array.isArray(value)) {
             return false;
         }
 
-        if (value.length < predicates.length) {
+        if (value.length !== predicates.length) {
             return false;
         }
 
@@ -36,7 +36,7 @@ type TuplePredicateTarget<P extends Predicate[]> =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Predicate<any[]>; // Too many, any typing.
 
-declare module "../validation" {
+declare module "../vahvista" {
     interface Rules {
         tuple<P extends Predicate[]>(...predicates: P): TuplePredicateTarget<P>;
     }

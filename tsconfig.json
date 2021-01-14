@@ -1,0 +1,28 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ES2019",
+        "sourceMap": true,
+
+        "allowJs": false,
+        "checkJs": false,
+        "strict": true,
+        "alwaysStrict": true,
+
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true,
+
+        "noEmitOnError": true,
+        "noErrorTruncation": true,
+    }
+}

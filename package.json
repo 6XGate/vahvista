@@ -1,6 +1,6 @@
 {
   "name": "vahvista",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple composable validation framework",
   "private": false,
   "main": "dist/index.cjs.js",

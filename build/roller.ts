@@ -1,144 +1,112 @@
-import type { InputOptions, OutputOptions, RollupOptions } from "rollup";
-import type { MergeStrategies } from "./merge";
-import { ignore, merge, mergeInput, mergeMaybeArray, replace } from "./merge";
-import type { SimpleGlobals } from "./utils";
-import { makeExternals } from "./utils";
+import type { RollupOptions } from "rollup";
+import type { ReadonlyDeep } from "type-fest";
+import type {
+    BuildVariables,
+    Configuration,
+    RollerContext,
+    RollerContextData,
+    Target,
+    RollerContextBase,
+} from "./build-base";
+import { coreStrategies, inputStrategies, outputStrategies } from "./build-base";
+import { merge } from "./merge";
+import type { RollerPlugin } from "./plugins";
+import { defaultPlugins } from "./plugins/builtin-plugins";
+import { makeExternals, readPackageConfig } from "./utils";
 
-export type Configuration = "dev" | "prod";
-export type Target = "cjs" | "esm" | "amd" | "umd" | "iife";
-export type BuildVariables = { configuration: Configuration; target: Target; env: typeof process.env };
+export type { BuildVariables, Configuration, RollerContext, RollerContextData, Target } from "./build-base";
+export { RollerPlugin } from "./plugins";
 
-/** Contains the merge strategy for roller configuration. Anything not listed is automatically `ignore`. */
-// ## Root
-const coreStrategies: MergeStrategies = {
-    // ### Core functionality
-    external: ignore,
-    input:    mergeInput,
-    plugins:  mergeMaybeArray,
-
-    // ### Advanced functionality
-    onwarn:                  replace,
-    preserveEntrySignatures: replace,
-    strictDeprecations:      replace,
-
-    // ## Output
-    output: {
-        // ### Core functionality
-        dir:     replace,
-        file:    replace,
-        format:  replace,
-        globals: ignore,
-        name:    replace,
-        plugins: mergeMaybeArray,
-
-        // ### Advanced functionality
-        assetFileNames:          replace,
-        banner:                  replace,
-        footer:                  replace,
-        chunkFileNames:          replace,
-        compact:                 replace,
-        entryFileNames:          replace,
-        extend:                  replace,
-        hoistTransitiveImports:  replace,
-        inlineDynamicImports:    replace,
-        interop:                 replace,
-        intro:                   replace,
-        outro:                   replace,
-        manualChunks:            replace,
-        minifyInternalExports:   replace,
-        paths:                   replace,
-        preserveModules:         replace,
-        preserveModulesRoot:     replace,
-        sourcemap:               ignore,
-        sourcemapExcludeSources: replace,
-        sourcemapFile:           replace,
-        sourcemapPathTransform:  replace,
-
-        // ### Danger zone
-        exports: replace,
-    },
-};
-
-export type RollerContext = {
-    readonly globals: (condition: boolean|SimpleGlobals, globals?: SimpleGlobals) => void;
-    readonly input: (condition: boolean|InputOptions, input?: InputOptions) => void;
-    readonly output: (condition: boolean|OutputOptions, output?: OutputOptions) => void;
-    readonly override: (condition: boolean|RollupOptions, overrides?: RollupOptions) => void;
-};
-
-type RollerContextData = {
-    config: RollupOptions;
-    globals: SimpleGlobals;
-};
-
-function makeDefaultContextData(): RollerContextData {
+function makeDefaultContextData(variables: BuildVariables): RollerContextData {
     return {
-        config:  { output: { sourcemap: true } },
-        globals: { },
+        input: {
+            input: variables.inPath,
+        },
+        output: {
+            name:      variables.name,
+            file:      variables.outPath,
+            sourcemap: true,
+            format:    variables.target,
+        },
+        globals:   { },
+        overrides: { },
     };
 }
 
-function makeContext(data: RollerContextData): RollerContext {
+function makeContext(data: RollerContextData): RollerContextBase {
     return {
-        globals: (condition, globals) => {
-            if (typeof condition === "object") {
-                data.globals = { ...condition, ...globals };
-            } else if (condition && globals) {
-                data.globals = { ...data.globals, ...globals };
+        globals: globals => {
+            data.globals = { ...data.globals, ...globals };
+        },
+        input: input => {
+            merge(inputStrategies, data.input, input);
+        },
+        output: output => {
+            merge(outputStrategies, data.output, output);
+            if (output.dir) {
+                delete data.output.file;
             }
         },
-        input: (condition, input) => {
-            if (typeof condition === "object") {
-                merge(coreStrategies, data.config, condition);
-            } else if (condition && input) {
-                merge(coreStrategies, data.config, input);
-            }
-        },
-        output: (condition, output) => {
-            if (typeof condition === "object") {
-                merge(coreStrategies, data.config, { output: condition });
-            } else if (condition && output) {
-                merge(coreStrategies, data.config, { output: output });
-            }
-        },
-        override: (condition, overrides) => {
-            if (typeof condition === "object") {
-                merge(coreStrategies, data.config, condition);
-            } else if (condition && overrides) {
-                merge(coreStrategies, data.config, overrides);
-            }
+        override: overrides => {
+            merge(coreStrategies, data.overrides, overrides);
         },
     };
 }
 
-export type BuildConfiguration = (variables: BuildVariables, context: RollerContext) => void;
+export type BuildConfiguration = (variables: ReadonlyDeep<BuildVariables>, roll: RollerContext) => void;
 
-export default function roller(targets: Target[], config: BuildConfiguration): RollupOptions[] {
+interface Roller {
+    (config: BuildConfiguration): Promise<RollupOptions[]>;
+    extend: (plugin: RollerPlugin) => void;
+}
+
+/** Plug-in registry, with defaults. */
+// NOTE: This order is important.
+const plugins: RollerPlugin[] = [...defaultPlugins];
+
+const roller: Roller = async (config: BuildConfiguration): Promise<RollupOptions[]> => {
+    const pkgConfig = await readPackageConfig();
+
     const results: RollerContextData[] = [];
-    for (const target of targets) {
-        const variables: BuildVariables = {
+    for (const [ target, outPath ] of Object.entries(pkgConfig.outputs) as [ Target, string ][]) {
+        const variables: ReadonlyDeep<BuildVariables> = Object.freeze({
             configuration: (process.env.CONFIGURATION || "dev") as Configuration,
-            env:           process.env,
             target,
-        };
+            env:           process.env,
+            name:          pkgConfig.name,
+            inPath:        pkgConfig.input,
+            outPath,
+            typings:       pkgConfig.typings,
+        });
 
-        const data = makeDefaultContextData();
-        const context = makeContext(data); // new RollerContext();
+        const data = makeDefaultContextData(variables);
+        const context = makeContext(data) as RollerContext;
+        for (const plugin of plugins) {
+            plugin.prepare(context, variables);
+        }
+
         config(variables, context);
 
-        if (data.config.output) {
-            if (Array.isArray(data.config.output)) {
-                throw new Error("Not expecting options to be an array");
-            }
-
-            if (data.config.output.format === "umd" || data.config.output.format === "iife") {
-                data.config.output.globals = { ...data.globals };
+        for (const plugin of plugins) {
+            if (plugin.enabled(data, variables)) {
+                data.globals = { ...data.globals, ...plugin.globals() };
+                data.input = merge(inputStrategies, data.input, plugin.input());
+                data.output = merge(outputStrategies, data.output, plugin.output());
+                data.overrides = merge(coreStrategies, data.overrides, plugin.overrides());
             }
         }
 
-        data.config.external = makeExternals(data.globals);
+        if (data.output.format === "umd" || data.output.format === "iife") {
+            data.output.globals = { ...data.globals };
+        }
+
+        data.input.external = makeExternals(data.globals);
         results.push(data);
     }
 
-    return results.map(result => result.config);
-}
+    return results.map(result => merge(coreStrategies, { ...result.input, output: result.output }, result.overrides));
+};
+
+roller.extend = plugin => plugins.push(plugin);
+
+export default roller;

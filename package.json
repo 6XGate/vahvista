@@ -5,7 +5,6 @@
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "browser": "dist/index.iife.js",
   "typings": "dist/types/index.d.ts",
   "scripts": {
     "lint": "eslint src tests build rollup.config.ts .eslintrc.js",
@@ -16,6 +15,10 @@
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable && npm run prod",
     "postpublish": "pinst --enable"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "tests"
   },
   "repository": {
     "type": "git",
@@ -35,6 +38,17 @@
   "engines": {
     "node": ">=12.9.0"
   },
+  "files": [
+    "dist/**/*"
+  ],
+  "roller": {
+    "input": "src/index.ts",
+    "targets": {
+      "cjs": "#main",
+      "esm": "#module",
+      "iife": "dist/index.iife.js"
+    }
+  },
   "ava": {
     "files": [
       "tests/**/*",
@@ -52,8 +66,16 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-auto-install": "^2.1.0",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
     "@rollup/plugin-typescript": "^8.1.0",
+    "@types/babel__core": "^7.1.12",
     "@types/lodash": "^4.14.167",
     "@types/node": "^14.14.20",
     "@typescript-eslint/eslint-plugin": "^4.13.0",

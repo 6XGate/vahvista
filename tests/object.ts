@@ -1,6 +1,6 @@
 import test from "ava";
 import vahvista from "../src";
-import { passOneFailMany } from "./utils/macros";
+import { passOneFailMany, passOneFailOne } from "./utils/macros";
 
 function block(code: () => void): void {
     code();
@@ -68,4 +68,20 @@ block(() => {
     ];
 
     test("shape", passOneFailMany(vahvista.shape(shape)), good, notGood);
+});
+
+block(() => {
+    const good = {
+        "monday":  5,
+        "tuesday": 3,
+        "friday":  12,
+    };
+
+    const bad = {
+        "monday":  "5",
+        "tuesday": NaN,
+        "friday":  new Date(),
+    };
+
+    test("dict", passOneFailOne(vahvista.dict(vahvista.number)), good, bad);
 });

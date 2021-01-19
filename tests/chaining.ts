@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import test from "ava";
 import vahvista from "../src";
 import { passManyFailMany } from "./utils/macros";

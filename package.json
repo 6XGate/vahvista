@@ -7,9 +7,9 @@
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
   "scripts": {
-    "lint": "eslint src tests build rollup.config.ts .eslintrc.js",
-    "dev": "rollup -c build/rollup.config.cjs --environment CONFIGURATION:dev",
-    "prod": "rollup -c build/rollup.config.cjs --environment CONFIGURATION:prod",
+    "lint": "eslint src tests rolete.config.js",
+    "dev": "rolete -c dev",
+    "prod": "rolete -c prod",
     "coverage": "nyc ava",
     "test": "ava",
     "postinstall": "husky install",
@@ -41,12 +41,15 @@
   "files": [
     "dist/**/*"
   ],
-  "roller": {
+  "rolete": {
     "input": "src/index.ts",
     "targets": {
       "cjs": "#main",
       "esm": "#module",
       "iife": "dist/index.iife.js"
+    },
+    "globals": {
+      "lodash": "_"
     }
   },
   "ava": {
@@ -69,6 +72,7 @@
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@rolete/rolete": "^1.1.0",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-auto-install": "^2.1.0",
     "@rollup/plugin-babel": "^5.2.2",

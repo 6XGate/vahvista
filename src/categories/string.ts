@@ -2,10 +2,13 @@ import { toString } from "lodash";
 import { ignore } from "../utils/checkers";
 import { vahvista } from "../vahvista";
 
+const eMailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/u;
+
 export const string = {
     isAlphabetic:   vahvista.register<string>("alphabetic", value => (/^[A-Za-z]+$/u).test(value)),
     isAlphaNumeric: vahvista.register<string>("alphaNumeric", value => (/^[A-Za-z\d]+$/u).test(value)),
     isDateLike:     vahvista.register<string>("dateLike", value => !isNaN(Date.parse(value))),
+    isEmail:        vahvista.register<string>("email", value => eMailPattern.test(value)),
     isNumeric:      vahvista.register<string>("numeric", value => (/^[+-]?\d+(?:\.\d+)?$/u).test(value)),
     isIntegral:     vahvista.register<string>("integral", value => (/^[+-]?\d+$/u).test(value)),
     isLowerCase:    vahvista.register<string>("lowerCase", value => value === toString(value).toLowerCase()),
@@ -29,6 +32,7 @@ declare module "../vahvista" {
     interface Rules {
         alphabetic: Predicate<string>;
         alphaNumeric: Predicate<string>;
+        email: Predicate<string>;
         dateLike: Predicate<string>;
         numeric: Predicate<string>;
         integral: Predicate<string>;

@@ -11,6 +11,8 @@ test("is date like", passManyFailMany(vahvista.dateLike),
     [ "2015+01+02", "32 Feb 1970 00:00:00 GMT" ],
 );
 
+test("is e-mail", passOneFailOne(vahvista.email), "sever@nine.org", "seven!nine^org");
+
 test("is numeric", passManyFailMany(vahvista.numeric),
     [ "12", "-12", "-1.2" ],
     [ "12a", "x-12", "1,2" ],

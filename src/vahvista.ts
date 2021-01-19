@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Mutable } from "type-fest";
 import type { PredicateInterface } from "./utils/types";
 
 export type Validator<T = any> = (value: T) => boolean;
@@ -93,6 +94,16 @@ function invokePredicate(this: Predicate, value: any): boolean {
     return true;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+function cleanFunction<T extends Function>(func: Mutable<Partial<T>>): Mutable<Partial<T>> {
+    delete func.arguments;
+    delete func.caller;
+    delete func.length;
+    delete func.name;
+
+    return func;
+}
+
 export class Predicate<T = any> {
     readonly ["@isPredicate"] = true;
     core: Vahvista;
@@ -100,7 +111,8 @@ export class Predicate<T = any> {
 
     static make<O>(core: Vahvista, chain: Validator<O>[]): Predicate<O> {
         const inner = new Predicate<O>(core, chain);
-        let predicate = Object.assign(invokePredicate.bind(inner), inner);
+        const bound = invokePredicate.bind(inner) as Mutable<Partial<typeof invokePredicate>>;
+        let predicate = Object.assign(cleanFunction(bound), inner);
         predicate = Object.setPrototypeOf(predicate, Predicate.prototype) as Predicate<O>;
 
         return predicate;

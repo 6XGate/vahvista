@@ -5,6 +5,7 @@ Simple composable validation framework
 ![Lint test](https://github.com/6XGate/vahvista/workflows/Lint%20test/badge.svg?branch=develop)
 ![Test coverage](https://github.com/6XGate/vahvista/workflows/Test%20coverage/badge.svg?branch=develop)
 ![Build test](https://github.com/6XGate/vahvista/workflows/Build%20test/badge.svg?branch=develop)
+[![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
 
 ## License
 

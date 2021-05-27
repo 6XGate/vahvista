@@ -192,6 +192,9 @@ overrides:
         - error
       '@typescript-eslint/no-shadow': *no-shadow
       '@typescript-eslint/require-await': *require-await
+      '@typescript-eslint/object-curly-spacing': # HACK: Not properly synchronized with Standard JS
+        - error
+        - always
       '@typescript-eslint/space-infix-ops': # HACK: Not properly synchronized with Standard JS
         - error
       ## Import ##
@@ -201,14 +204,15 @@ overrides:
       <<: *esm-rules
       # Turn off these rules to prevent conflicts with TypeScript.
       consistent-return: off
-      comma-dangle: off
+      comma-dangle: off # HACK: Not properly synchronized with Standard JS
       no-empty-function: off
-      no-implied-eval: off
+      no-implied-eval: off # HACK: Not properly disabled in Standard TS
       no-loop-func: off
-      no-loss-of-precision: off
+      no-loss-of-precision: off # HACK: Not properly synchronized with Standard JS
       no-shadow: off
       require-await: off
-      space-infix-ops: off
+      object-curly-spacing: off # HACK: Not properly synchronized with Standard JS
+      space-infix-ops: off # HACK: Not properly synchronized with Standard JS
       import/no-duplicates: off
       node/no-missing-import: off
       # Standard TS is too strict by forbidding types and const of the same name, TypeScript will catch

@@ -178,25 +178,29 @@ overrides:
         - error
         - { allowNumber: true, allowBoolean: false, allowAny: false, allowNullish: true }
       ### ESLint and import replacement rules ###
-      '@typescript-eslint/comma-dangle': # HACK: Not properly synchronized with Standard JS
+      '@typescript-eslint/no-duplicate-imports': error
+      '@typescript-eslint/no-empty-function': error
+      '@typescript-eslint/no-loop-func': *no-loop-func
+      '@typescript-eslint/no-shadow': *no-shadow
+      '@typescript-eslint/require-await': *require-await
+      ### HACK: Standard JS rules not propagated
+      comma-dangle: off
+      '@typescript-eslint/comma-dangle':
         - error
         - arrays: never
           objects: never
           imports: never
           exports: never
           functions: never
-      '@typescript-eslint/no-duplicate-imports': error
-      '@typescript-eslint/no-empty-function': error
-      '@typescript-eslint/no-loop-func': *no-loop-func
-      '@typescript-eslint/no-loss-of-precision': # HACK: Not properly synchronized with Standard JS
-        - error
-      '@typescript-eslint/no-shadow': *no-shadow
-      '@typescript-eslint/require-await': *require-await
-      '@typescript-eslint/object-curly-spacing': # HACK: Not properly synchronized with Standard JS
-        - error
-        - always
-      '@typescript-eslint/space-infix-ops': # HACK: Not properly synchronized with Standard JS
-        - error
+      '@typescript-eslint/no-extra-parens': [error, functions]
+      no-implied-eval: off # HACK: Not properly disabled in Standard TS
+      no-loss-of-precision: off
+      '@typescript-eslint/no-loss-of-precision': error
+      object-curly-spacing: off
+      '@typescript-eslint/object-curly-spacing': [error, always]
+      space-infix-ops: off
+      '@typescript-eslint/space-infix-ops': error
+
       ## Import ##
       ### Style guide ###
       import/extensions: [ error, never, { svg: always, vue: always } ]
@@ -204,15 +208,10 @@ overrides:
       <<: *esm-rules
       # Turn off these rules to prevent conflicts with TypeScript.
       consistent-return: off
-      comma-dangle: off # HACK: Not properly synchronized with Standard JS
       no-empty-function: off
-      no-implied-eval: off # HACK: Not properly disabled in Standard TS
       no-loop-func: off
-      no-loss-of-precision: off # HACK: Not properly synchronized with Standard JS
       no-shadow: off
       require-await: off
-      object-curly-spacing: off # HACK: Not properly synchronized with Standard JS
-      space-infix-ops: off # HACK: Not properly synchronized with Standard JS
       import/no-duplicates: off
       node/no-missing-import: off
       # Standard TS is too strict by forbidding types and const of the same name, TypeScript will catch

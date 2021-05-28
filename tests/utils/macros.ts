@@ -1,6 +1,6 @@
 import type { ExecutionContext } from 'ava'
-import { isObject, isString, toString } from 'lodash'
 import type { Predicate } from '../../src'
+import { isObject, isString } from '../../src/utils/checkers'
 
 interface HasStringTag {
   readonly [Symbol.toStringTag]: string
@@ -27,7 +27,7 @@ function stringify (value: unknown): string {
     return `"${value}"`
   }
 
-  return toString(value)
+  return String(value)
 }
 
 type Should = 'pass' | 'fail'

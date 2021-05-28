@@ -1,5 +1,4 @@
-import { isObject } from 'lodash'
-import { eqOrRegExp } from '../utils/checkers'
+import { eqOrRegExp, isObject } from '../utils/checkers'
 import type { Namable } from '../utils/types'
 import { vahvista } from '../vahvista'
 

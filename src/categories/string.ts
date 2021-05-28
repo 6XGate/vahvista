@@ -1,12 +1,23 @@
-import { toString } from 'lodash'
 import { ignore } from '../utils/checkers'
 import { vahvista } from '../vahvista'
 
 const eMailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/u
 
+function toString (value: unknown): string {
+  if (value == null) {
+    return ''
+  }
+
+  if (typeof value === 'string') {
+    return value
+  }
+
+  return String(value)
+}
+
 export const string = {
-  isAlphabetic: vahvista.register<string>('alphabetic', value => (/^[A-Za-z]+$/u).test(value)),
-  isAlphaNumeric: vahvista.register<string>('alphaNumeric', value => (/^[A-Za-z\d]+$/u).test(value)),
+  isAlphabetic: vahvista.register<string>('alphabetic', value => (/^[A-Za-z]+$/u).test(toString(value))),
+  isAlphaNumeric: vahvista.register<string>('alphaNumeric', value => (/^[A-Za-z\d]+$/u).test(toString(value))),
   isDateLike: vahvista.register<string>('dateLike', value => !isNaN(Date.parse(value))),
   isEmail: vahvista.register<string>('email', value => eMailPattern.test(value)),
   isNumeric: vahvista.register<string>('numeric', value => (/^[+-]?\d+(?:\.\d+)?$/u).test(value)),

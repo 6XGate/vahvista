@@ -1,26 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types */
 import {
-  isBoolean,
-  isNumber,
-  isNaN,
-  isSymbol,
   isArrayLike,
-  isString,
-  isArrayBuffer,
   isBuffer,
-  isTypedArray,
-  isFunction,
-  isRegExp,
-  isObject,
-  isError,
-  isDate,
-  isSet,
-  isWeakSet,
-  isMap,
-  isWeakMap
+  isTypedArray
 } from 'lodash'
 import type { TypedArray } from 'type-fest'
-import { isInstanceOf, isIterable, isIterator, isPromise, isValue } from '../utils/checkers'
+import {
+  isArrayBuffer,
+  isBoolean,
+  isInstanceOf,
+  isIterable,
+  isIterator,
+  isMap,
+  isNumber, isObject,
+  isPromise,
+  isRegExp,
+  isSet,
+  isString,
+  isTaggedBy,
+  isTypeOf,
+  isValue,
+  isWeakMap,
+  isWeakSet
+} from '../utils/checkers'
+import { kDateTag, kErrorTag } from '../utils/tags'
 import type { TypeOf, Types, Value } from '../utils/types'
 import { vahvista } from '../vahvista'
 
@@ -31,8 +34,8 @@ export const is = {
   isValue: vahvista.register('value', isValue),
   isBoolean: vahvista.register('boolean', isBoolean),
   isNumber: vahvista.register('number', isNumber),
-  isNaN: vahvista.register('nan', isNaN),
-  isSymbol: vahvista.register('symbol', isSymbol),
+  isNaN: vahvista.register('nan', value => Number.isNaN(value)),
+  isSymbol: vahvista.register('symbol', isTypeOf('symbol')),
   isArrayLike: vahvista.register('arrayLike', isArrayLike),
   isArray: vahvista.register('array', value => Array.isArray(value)),
   isString: vahvista.register('string', isString),
@@ -49,11 +52,11 @@ export const is = {
   isFloat64Array: vahvista.register('float64Array', isInstanceOf(Float64Array)),
   isFloat32Array: vahvista.register('float32Array', isInstanceOf(Float32Array)),
   isUint8ClampedArray: vahvista.register('uint8ClampedArray', isInstanceOf(Uint8ClampedArray)),
-  isFunction: vahvista.register('function', isFunction),
+  isFunction: vahvista.register('function', isTypeOf('function')),
   isRegExp: vahvista.register('regExp', isRegExp),
   isObject: vahvista.register('object', isObject),
-  isError: vahvista.register('error', isError),
-  isDate: vahvista.register('date', isDate),
+  isError: vahvista.register('error', isTaggedBy(kErrorTag)),
+  isDate: vahvista.register('date', isTaggedBy(kDateTag)),
   isIterable: vahvista.register('iterable', isIterable),
   isIterator: vahvista.register('iterator', isIterator),
   isPromise: vahvista.register('promise', isPromise),

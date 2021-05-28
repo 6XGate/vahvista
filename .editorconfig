@@ -9,7 +9,7 @@ indent_size = 4
 trim_trailing_whitespace = true
 max_line_length = 120
 
-[*.{html,css,less,sass,scss,xml,yml,yaml,json,config,gql,graphql,ejs}]
+[*.{html,css,less,sass,scss,xml,yml,yaml,json,config,gql,graphql,js,jsx,ts,tsx,ejs,cjs,mjs}]
 indent_size = 2
 
 [*.md]

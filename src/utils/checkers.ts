@@ -48,6 +48,55 @@ export function isObject (value: unknown): value is object {
   return value != null && (type === 'object' || type === 'function')
 }
 
+// // eslint-disable-next-line @typescript-eslint/ban-types -- isObjectLike test, nuf said
+// export function isObjectLike (value: unknown): value is object {
+//   return value != null && typeof value === 'object'
+// }
+
+export function isLength (value: unknown): value is number {
+  return isNumber(value) && Number.isInteger(value) && value >= 0 && value <= Number.MAX_SAFE_INTEGER
+}
+
+export function isArrayLike (value: unknown): value is ArrayLike<unknown> {
+  return value != null && !isFunction(value) && isLength((value as { length: unknown }).length)
+}
+
+export function isEmpty (value: unknown): boolean {
+  if (value == null) {
+    return true
+  }
+
+  if (isArrayLike(value)) {
+    return value.length === 0
+  }
+
+  const tag = getTag(value)
+  if (tag === kMapTag || tag === kSetTag) {
+    return (value as { size: number }).size === 0
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-types -- ECMAScript will accept this, TypeScript won't
+  return Object.keys(value as object).length === 0
+}
+
+export function getSize (value: unknown): number {
+  if (value == null) {
+    return 0
+  }
+
+  if (isArrayLike(value)) {
+    return value.length
+  }
+
+  const tag = getTag(value)
+  if (tag === kMapTag || tag === kSetTag) {
+    return (value as { size: number }).size
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-types -- ECMAScript will accept this, TypeScript won't
+  return Object.keys(value as object).length
+}
+
 export function isPredicate (value: unknown): value is PredicateInterface {
   return isObject(value) ? Boolean((value as MaybePredicateInterface)['@isPredicate']) : false
 }
@@ -87,7 +136,7 @@ export function isPromise (value: unknown): value is Promise<unknown>|PromiseLik
   return isNativePromise(value) || isPromiseLike(value)
 }
 
-export function hasBase (target: any, key: any): boolean {
+export function hasKey (target: any, key: any): boolean {
   if (Array.isArray(target) && Number.isInteger(key)) {
     return key >= 0 && key < target.length
   }

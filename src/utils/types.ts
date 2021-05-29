@@ -51,3 +51,9 @@ export type TypeBasedOnShape<S extends Shape> =
       S extends ArrayShape ? Array<TypeBasedOnShape<S[number]>> :
         S extends ObjectShape ? { [K in keyof S]: TypeBasedOnShape<S[K]> } :
           never
+
+// These type are borrowed from `type-fest`
+export type Simplify<T> = { [K in keyof T]: T[K] }
+export type Except<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+export type Mutable<T, P extends keyof T = keyof T> =
+  Simplify<Except<T, P> & { -readonly [K in keyof Pick<T, P>]: Pick<T, P>[K] }>

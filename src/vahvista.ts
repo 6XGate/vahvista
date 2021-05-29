@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Mutable } from 'type-fest'
-import type { PredicateInterface } from './utils/types'
+import type { Mutable, PredicateInterface } from './utils/types'
 
 export type Validator<T = any> = (value: T) => boolean
 export type ValidatorFactory<T = any> = (...args: any[]) => (value: T) => boolean

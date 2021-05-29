@@ -3,7 +3,7 @@ import vahvista from '../src'
 import { passManyFailMany } from './utils/macros'
 
 test('is empty', passManyFailMany(vahvista.empty),
-  ['', [], {}, new Set(), new Map()],
+  ['', [], {}, new Set(), new Map(), null],
   ['2', [2], { a: 2 }, new Set([2]), new Map([[1, 2]])]
 )
 
@@ -12,9 +12,14 @@ test('is not empty', passManyFailMany(vahvista.notEmpty),
   ['', [], {}, new Set(), new Map()]
 )
 
-test('is size', passManyFailMany(vahvista.size(1)),
+test('is size, one', passManyFailMany(vahvista.size(1)),
   ['2', [2], { a: 2 }, new Set([2]), new Map([[1, 2]])],
-  ['23', [2, 3], { a: 2, b: 3 }, new Set([2, 3]), new Map([[1, 2], [2, 3]])]
+  ['23', [2, 3], { a: 2, b: 3 }, new Set([2, 3]), new Map([[1, 2], [2, 3]]), null]
+)
+
+test('is size, zero', passManyFailMany(vahvista.size(0)),
+  ['', [], {}, new Set(), new Map(), null],
+  ['2', [2], { a: 2 }, new Set([2]), new Map([[1, 2]])]
 )
 
 test('is max size', passManyFailMany(vahvista.maxSize(2)),

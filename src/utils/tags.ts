@@ -8,6 +8,7 @@ export const kBooleanTag = '[object Boolean]' as const
 export const kNumberTag = '[object Number]' as const
 export const kStringTag = '[object String]' as const
 export const kArrayTag = '[object Array]' as const
+export const kArgumentsTag = '[object Arguments]' as const
 export const kErrorTag = '[object Error]' as const
 export const kDateTag = '[object Date]' as const
 export const kRegExpTag = '[object RegExp]' as const
@@ -24,6 +25,7 @@ export const TypeTags = [
   kNumberTag,
   kStringTag,
   kArrayTag,
+  kArgumentsTag,
   kErrorTag,
   kDateTag,
   kRegExpTag,
@@ -42,20 +44,17 @@ export type TagOf<T extends TypeTags> =
         : T extends typeof kNumberTag ? number
           : T extends typeof kStringTag ? string
             : T extends typeof kArrayTag ? unknown[]
-              : T extends typeof kErrorTag ? Error
-                : T extends typeof kDateTag ? Date
-                  : T extends typeof kRegExpTag ? RegExp
-                    : T extends typeof kMapTag ? Map<unknown, unknown>
-                      : T extends typeof kSetTag ? Set<unknown>
-                        : T extends typeof kWeakMapTag ? WeakMap<object, unknown>
-                          : T extends typeof kWeakSetTag ? WeakSet<object>
-                            : T extends typeof kArrayBufferTag ? ArrayBuffer
-                              : never
+              : T extends typeof kArgumentsTag ? IArguments
+                : T extends typeof kErrorTag ? Error
+                  : T extends typeof kDateTag ? Date
+                    : T extends typeof kRegExpTag ? RegExp
+                      : T extends typeof kMapTag ? Map<unknown, unknown>
+                        : T extends typeof kSetTag ? Set<unknown>
+                          : T extends typeof kWeakMapTag ? WeakMap<object, unknown>
+                            : T extends typeof kWeakSetTag ? WeakSet<object>
+                              : T extends typeof kArrayBufferTag ? ArrayBuffer
+                                : never
 
 export function getTag (value: unknown): string {
-  if (value == null) {
-    return value === undefined ? kUndefinedTag : kNullTag
-  }
-
   return toStringTag(value)
 }

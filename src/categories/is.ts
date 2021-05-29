@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types */
-import {
-  isArrayLike,
-  isBuffer,
-  isTypedArray
-} from 'lodash'
-import type { TypedArray } from 'type-fest'
+import type { TypedArray } from '../utils/buffer'
+import { isBuffer, isTypedArray } from '../utils/buffer'
 import {
   isArrayBuffer,
+  isArrayLike,
   isBoolean,
   isInstanceOf,
   isIterable,
   isIterator,
   isMap,
-  isNumber, isObject,
+  isNumber,
+  isObject,
   isPromise,
   isRegExp,
   isSet,

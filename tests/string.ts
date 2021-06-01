@@ -2,7 +2,7 @@ import test from 'ava'
 import vahvista from '../src'
 import { passManyFailMany, passOneFailMany, passOneFailOne } from './utils/macros'
 
-test('is alphabetic', passOneFailOne(vahvista.alphabetic), 'abcefzx', 'az34df1x!')
+test('is alphabetic', passOneFailMany(vahvista.alphabetic), 'abcefzx', ['az34df1x!', null])
 
 test('is alpha numeric', passOneFailOne(vahvista.alphaNumeric), 'az34dx11', 'az34df1x!')
 
@@ -23,9 +23,9 @@ test('is integral', passManyFailMany(vahvista.integral),
   ['12a', 'x-12', '1,2', '-1.2']
 )
 
-test('is lower case', passOneFailMany(vahvista.lowerCase), 'abc def', ['Abc Def', 'ABC DEF'])
+test('is lower case', passOneFailMany(vahvista.lowerCase), 'abc def', ['Abc Def', 'ABC DEF', null, 5])
 
-test('is upper case', passOneFailMany(vahvista.upperCase), 'ABC DEF', ['Abc Def', 'abc def'])
+test('is upper case', passOneFailMany(vahvista.upperCase), 'ABC DEF', ['Abc Def', 'abc def', null, 5])
 
 test('is url', passOneFailOne(vahvista.url), 'https://www.example.com/xc?x=2', 'https//www.example.com/xc__x\\2')
 

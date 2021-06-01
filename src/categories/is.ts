@@ -1,26 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-types */
+import type { TypedArray } from '../utils/buffer'
+import { isBuffer, isTypedArray } from '../utils/buffer'
 import {
-  isBoolean,
-  isNumber,
-  isNaN,
-  isSymbol,
-  isArrayLike,
-  isString,
   isArrayBuffer,
-  isBuffer,
-  isTypedArray,
-  isFunction,
-  isRegExp,
-  isObject,
-  isError,
-  isDate,
-  isSet,
-  isWeakSet,
+  isArrayLike,
+  isBoolean,
+  isInstanceOf,
+  isIterable,
+  isIterator,
   isMap,
-  isWeakMap
-} from 'lodash'
-import type { TypedArray } from 'type-fest'
-import { isInstanceOf, isIterable, isIterator, isPromise, isValue } from '../utils/checkers'
+  isNumber,
+  isObject,
+  isPromise,
+  isRegExp,
+  isSet,
+  isString,
+  isTaggedBy,
+  isTypeOf,
+  isValue,
+  isWeakMap,
+  isWeakSet
+} from '../utils/checkers'
+import { kDateTag, kErrorTag } from '../utils/tags'
 import type { TypeOf, Types, Value } from '../utils/types'
 import { vahvista } from '../vahvista'
 
@@ -31,8 +32,8 @@ export const is = {
   isValue: vahvista.register('value', isValue),
   isBoolean: vahvista.register('boolean', isBoolean),
   isNumber: vahvista.register('number', isNumber),
-  isNaN: vahvista.register('nan', isNaN),
-  isSymbol: vahvista.register('symbol', isSymbol),
+  isNaN: vahvista.register('nan', value => Number.isNaN(value)),
+  isSymbol: vahvista.register('symbol', isTypeOf('symbol')),
   isArrayLike: vahvista.register('arrayLike', isArrayLike),
   isArray: vahvista.register('array', value => Array.isArray(value)),
   isString: vahvista.register('string', isString),
@@ -49,11 +50,11 @@ export const is = {
   isFloat64Array: vahvista.register('float64Array', isInstanceOf(Float64Array)),
   isFloat32Array: vahvista.register('float32Array', isInstanceOf(Float32Array)),
   isUint8ClampedArray: vahvista.register('uint8ClampedArray', isInstanceOf(Uint8ClampedArray)),
-  isFunction: vahvista.register('function', isFunction),
+  isFunction: vahvista.register('function', isTypeOf('function')),
   isRegExp: vahvista.register('regExp', isRegExp),
   isObject: vahvista.register('object', isObject),
-  isError: vahvista.register('error', isError),
-  isDate: vahvista.register('date', isDate),
+  isError: vahvista.register('error', isTaggedBy(kErrorTag)),
+  isDate: vahvista.register('date', isTaggedBy(kDateTag)),
   isIterable: vahvista.register('iterable', isIterable),
   isIterator: vahvista.register('iterator', isIterator),
   isPromise: vahvista.register('promise', isPromise),
@@ -61,7 +62,7 @@ export const is = {
   isWeakSet: vahvista.register('weakSet', isWeakSet),
   isMap: vahvista.register('map', isMap),
   isWeakMap: vahvista.register('weakMap', isWeakMap),
-  isEnum: vahvista.factory<number|string>('enum', (values: Array<number|string>) => value => values.includes(value)),
+  isEnum: vahvista.factory<number | string>('enum', (values: Array<number | string>) => value => values.includes(value)),
   isTypeOf: vahvista.factory('typeOf', (type: Types) => value => typeof value === type),
   isInstanceOf: vahvista.factory('instanceOf', (type: new (...args: any[]) => any) => isInstanceOf(type))
 }
@@ -70,7 +71,7 @@ declare module '../vahvista' {
   interface Rules {
     undefined: Predicate<undefined>
     null: Predicate<null>
-    nil: Predicate<undefined|null>
+    nil: Predicate<undefined | null>
     value: Predicate<Value>
     boolean: Predicate<boolean>
     number: Predicate<number>
@@ -104,7 +105,7 @@ declare module '../vahvista' {
     weakSet: Predicate<WeakSet<any>>
     map: Predicate<Map<any, any>>
     weakMap: Predicate<WeakMap<any, any>>
-    enum: <E extends number|string>(values: readonly E[]) => Predicate<E>
+    enum: <E extends number | string>(values: readonly E[]) => Predicate<E>
     typeOf: <T extends Types>(type: T) => Predicate<TypeOf<T>>
     instanceOf: <C extends new (...args: any[]) => any>(type: C) => Predicate<InstanceType<C>>
   }

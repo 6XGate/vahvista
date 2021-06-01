@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { hasBase } from '../utils/checkers'
+import { hasKey } from '../utils/checkers'
 import type { KeyType } from '../utils/types'
 import { vahvista } from '../vahvista'
 
 export const keyed = {
-  has: vahvista.factory('has', (...keys: readonly any[]) => value => keys.every(key => hasBase(value, key))),
-  hasAny: vahvista.factory('hasAny', (...keys: readonly any[]) => value => keys.some(key => hasBase(value, key)))
+  has: vahvista.factory('has', (...keys: readonly any[]) => value => keys.every(key => hasKey(value, key))),
+  hasAny: vahvista.factory('hasAny', (...keys: readonly any[]) => value => keys.some(key => hasKey(value, key)))
 }
 
 declare module '../vahvista' {

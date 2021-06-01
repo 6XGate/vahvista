@@ -1,14 +1,15 @@
-import { isObject } from 'lodash'
-import { isPredicate } from '../utils/checkers'
+import { isObject, isPredicate } from '../utils/checkers'
 import type { ArrayShape, ObjectShape, Shape, TypeBasedOnShape } from '../utils/types'
 import type { Predicate } from '../vahvista'
 import { vahvista } from '../vahvista'
 
 function isObjectValue (value: unknown): value is { [key: string]: unknown } {
+  // TODO: More validation
   return isObject(value)
 }
 
 function isObjectShape (shape: Shape): shape is ObjectShape {
+  // TODO: More validation
   return isObject(shape)
 }
 

@@ -12,9 +12,6 @@ export default rolete(({ packageJson, target, outPath }, { typescript, globals, 
     throw new Error(`Missing output path for "${target}"`)
   }
 
-  // ### Common
-  globals({ lodash: '_' })
-
   // ### CommonJS configuration ("main")
   if (target === 'cjs') {
     output({ exports: 'default' })

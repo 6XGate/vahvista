@@ -2,7 +2,7 @@
 /* istanbul ignore next */
 const temp = typeof undefined
 export type Types = typeof temp
-export type Value = boolean|number|bigint|string
+export type Value = boolean | number | bigint | string
 export interface Namable { name: string }
 
 export interface MaybePredicateInterface {
@@ -23,7 +23,7 @@ export type TypeOf<T extends Types> =
             T extends 'string' ? string :
               T extends 'symbol' ? symbol :
                 T extends 'function' ? (...args: any[]) => any :
-                  T extends 'object' ? null|object :
+                  T extends 'object' ? null | object :
                     never
 
 export type KeyType<T> =
@@ -31,7 +31,7 @@ export type KeyType<T> =
       T extends Map<infer K, any> ? K :
         T extends WeakSet<infer V> ? V :
           T extends Set<infer V> ? V :
-            T extends object ? number|string|object :
+            T extends object ? number | string | object :
               never
 
 export type ElementType<T> =
@@ -39,15 +39,21 @@ export type ElementType<T> =
       never
 
 export interface ObjectShape {
-  [key: string]: PredicateInterface|Shape
+  [key: string]: PredicateInterface | Shape
 }
 
-export type ArrayShape = readonly [PredicateInterface|Shape]|ReadonlyArray<PredicateInterface|Shape>
+export type ArrayShape = readonly [PredicateInterface | Shape] | ReadonlyArray<PredicateInterface | Shape>
 
-export type Shape = ObjectShape|ArrayShape|PredicateInterface
+export type Shape = ObjectShape | ArrayShape | PredicateInterface
 
 export type TypeBasedOnShape<S extends Shape> =
     S extends PredicateInterface<infer T> ? T :
       S extends ArrayShape ? Array<TypeBasedOnShape<S[number]>> :
         S extends ObjectShape ? { [K in keyof S]: TypeBasedOnShape<S[K]> } :
           never
+
+// These type are borrowed from `type-fest`
+export type Simplify<T> = { [K in keyof T]: T[K] }
+export type Except<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+export type Mutable<T, P extends keyof T = keyof T> =
+  Simplify<Except<T, P> & { -readonly [K in keyof Pick<T, P>]: Pick<T, P>[K] }>

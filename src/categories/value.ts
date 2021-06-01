@@ -1,4 +1,4 @@
-import { isNumber, toFinite } from 'lodash'
+import { isNumber } from '../utils/checkers'
 import type { Value } from '../utils/types'
 import { vahvista } from '../vahvista'
 
@@ -6,7 +6,7 @@ export const value = {
   isOneOf: vahvista.factory<Value>(
     'oneOf',
     (...values: readonly Value[]) => _value => (isNumber(_value)
-      ? values.map(toFinite).includes(_value)
+      ? values.map(Number).includes(_value)
       : values.includes(_value))
   ),
   isEqual: vahvista.factory<Value>(

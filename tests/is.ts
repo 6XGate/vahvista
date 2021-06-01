@@ -1,5 +1,4 @@
 import test, { todo } from 'ava'
-import { values } from 'lodash'
 import vahvista from '../src'
 import { passManyFailMany, passManyFailOne, passOneFailMany, passOneFailOne } from './utils/macros'
 
@@ -116,7 +115,7 @@ enum Setting {
   advanced = 'adv'
 }
 
-test('is enum: object style', passManyFailMany(vahvista.enum(values(Setting))),
+test('is enum: object style', passManyFailMany(vahvista.enum(Object.values(Setting))),
   [Setting.general, Setting.advanced, 'gen' as Setting],
   [2, 'general', 'advanced']
 )

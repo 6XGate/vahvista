@@ -17,7 +17,6 @@ _vahvista_ is licensed under the [MIT](LICENSE) license.
 
 Under [node.js](https://nodejs.org/), or a bundler such as [webpack](https://webpack.js.org/) or
 [rollup](https://rollupjs.org/); _vahvista_ has no additional requirement.
-When using the browser ready package, [lodash](https://lodash.com/) must be loaded to use _vahvista_.
 
 ### Installation
 

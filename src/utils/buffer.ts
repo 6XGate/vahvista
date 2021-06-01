@@ -11,7 +11,7 @@ const theExports =
 const theModule =
   theExports != null &&
   typeof module === 'object' &&
-  (module as undefined|null|NodeModule) != null &&
+  (module as undefined | null | NodeModule) != null &&
   !(module as unknown as { nodeType: boolean }).nodeType
     ? module
     : undefined

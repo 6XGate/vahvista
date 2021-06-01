@@ -62,7 +62,7 @@ export const is = {
   isWeakSet: vahvista.register('weakSet', isWeakSet),
   isMap: vahvista.register('map', isMap),
   isWeakMap: vahvista.register('weakMap', isWeakMap),
-  isEnum: vahvista.factory<number|string>('enum', (values: Array<number|string>) => value => values.includes(value)),
+  isEnum: vahvista.factory<number | string>('enum', (values: Array<number | string>) => value => values.includes(value)),
   isTypeOf: vahvista.factory('typeOf', (type: Types) => value => typeof value === type),
   isInstanceOf: vahvista.factory('instanceOf', (type: new (...args: any[]) => any) => isInstanceOf(type))
 }
@@ -71,7 +71,7 @@ declare module '../vahvista' {
   interface Rules {
     undefined: Predicate<undefined>
     null: Predicate<null>
-    nil: Predicate<undefined|null>
+    nil: Predicate<undefined | null>
     value: Predicate<Value>
     boolean: Predicate<boolean>
     number: Predicate<number>
@@ -105,7 +105,7 @@ declare module '../vahvista' {
     weakSet: Predicate<WeakSet<any>>
     map: Predicate<Map<any, any>>
     weakMap: Predicate<WeakMap<any, any>>
-    enum: <E extends number|string>(values: readonly E[]) => Predicate<E>
+    enum: <E extends number | string>(values: readonly E[]) => Predicate<E>
     typeOf: <T extends Types>(type: T) => Predicate<TypeOf<T>>
     instanceOf: <C extends new (...args: any[]) => any>(type: C) => Predicate<InstanceType<C>>
   }

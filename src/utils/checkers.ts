@@ -132,7 +132,7 @@ export function isPromiseLike (value: unknown): value is PromiseLike<unknown> {
     isFunction((value as { catch: unknown }).catch)
 }
 
-export function isPromise (value: unknown): value is Promise<unknown>|PromiseLike<unknown> {
+export function isPromise (value: unknown): value is Promise<unknown> | PromiseLike<unknown> {
   return isNativePromise(value) || isPromiseLike(value)
 }
 
@@ -152,6 +152,6 @@ export function hasKey (target: any, key: any): boolean {
   return false
 }
 
-export function eqOrRegExp (subject: string, test: string|RegExp): boolean {
+export function eqOrRegExp (subject: string, test: string | RegExp): boolean {
   return isRegExp(test) ? test.test(subject) : subject === test
 }

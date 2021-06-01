@@ -37,9 +37,9 @@ block(() => {
 
 block(() => {
   const good = [[0, 'name'], [1, 'date'], ['name', 0], ['date', 1], ['title', 3], ['extra', 4]] as
-        Array<[number|string, number|string]>
+        Array<[number | string, number | string]>
   const bad = [[0, 'name'], [1, 'date'], ['name', 0], ['date', 1]] as
-        Array<[number|string, number|string]>
+        Array<[number | string, number | string]>
 
   test('has: property keys: mixed', passManyFailMany(vahvista.has(0, 1, 'name', 'date', 'title')),
     [mapEnt(good), setEnt(good)],
@@ -84,9 +84,9 @@ block(() => {
 
 block(() => {
   const good = [[0, 'name'], [2, 'date'], ['name', 0], ['date', 1], ['term', 3], ['extra', 4]] as
-        Array<[number|string, number|string]>
+        Array<[number | string, number | string]>
   const bad = [[3, 'name'], [4, 'date'], ['set', 0], ['map', 1]] as
-        Array<[number|string, number|string]>
+        Array<[number | string, number | string]>
 
   test('has any: property keys: mixed', passManyFailMany(vahvista.hasAny(0, 1, 'name', 'date', 'title')),
     [mapEnt(good), setEnt(good)],

@@ -5,6 +5,7 @@ Simple composable validation framework
 ![Lint test](https://github.com/6XGate/vahvista/workflows/Lint%20test/badge.svg?branch=develop)
 ![Test coverage](https://github.com/6XGate/vahvista/workflows/Test%20coverage/badge.svg?branch=develop)
 ![Build test](https://github.com/6XGate/vahvista/workflows/Build%20test/badge.svg?branch=develop)
+[![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
 
 ## License
 
@@ -16,7 +17,6 @@ _vahvista_ is licensed under the [MIT](LICENSE) license.
 
 Under [node.js](https://nodejs.org/), or a bundler such as [webpack](https://webpack.js.org/) or
 [rollup](https://rollupjs.org/); _vahvista_ has no additional requirement.
-When using the browser ready package, [lodash](https://lodash.com/) must be loaded to use _vahvista_.
 
 ### Installation
 

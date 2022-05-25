@@ -69,7 +69,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.14.3",
     "@babel/preset-env": "^7.14.4",
-    "@commitlint/cli": "^12.1.4",
+    "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^12.1.4",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@rolete/rolete": "^1.1.2",

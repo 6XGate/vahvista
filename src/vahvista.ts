@@ -135,3 +135,5 @@ vahvista.factory('or', (...possibilities: Predicate[]) => value => {
 
   return false
 })
+
+export type PredicateType<P> = P extends Predicate<infer T> ? T : never

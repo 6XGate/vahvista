@@ -9,8 +9,8 @@
   "scripts": {
     "lint": "eslint src tests webpack.config.cjs",
     "fix": "eslint --fix src tests webpack.config.cjs",
-    "dev": "rolete -c dev",
-    "prod": "rolete -c prod",
+    "dev": "webpack --mode=development",
+    "prod": "webpack --mode=production",
     "coverage": "nyc ava",
     "test": "ava",
     "postinstall": "husky install",

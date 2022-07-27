@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-types,@typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* istanbul ignore next */
 const temp = typeof undefined
 export type Types = typeof temp
 export type Value = boolean | number | bigint | string
+export type PossibleLiteral = Value | object
 export interface Namable { name: string }
 
 export interface MaybePredicateInterface {

@@ -13,7 +13,7 @@ import './categories/namable'
 import './categories/tuple'
 import './categories/object'
 import { vahvista } from './vahvista'
-import type { Rules, Validator, ValidatorFactory, Predicate } from './vahvista'
+import type { Rules, Validator, ValidatorFactory, Predicate, PredicateType } from './vahvista'
 
-export { Rules, Validator, ValidatorFactory, Predicate }
+export { Rules, Validator, ValidatorFactory, Predicate, PredicateType }
 export default vahvista

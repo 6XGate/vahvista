@@ -12,6 +12,11 @@ test('oneOf: string', passManyFailMany(vahvista.oneOf('Sam', 'Max', 'Ratchet', '
   ['Mario', 'Luigi']
 )
 
+test('oneOf: mixed', passManyFailMany(vahvista.oneOf(2, 3, 5, 7, '8')),
+  [2, 3, 5, 7, '8'],
+  [1, 4, 8]
+)
+
 test('equal: number: 2', passOneFailMany(vahvista.equal(2)), 2, [1, 3, 4, 5])
 test('equal: number: 3', passOneFailMany(vahvista.equal(3)), 3, [1, 2, 4, 5])
 

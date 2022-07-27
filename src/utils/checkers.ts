@@ -41,7 +41,6 @@ export const isWeakMap = isTaggedBy(kWeakMapTag)
 export const isWeakSet = isTaggedBy(kWeakSetTag)
 export const isArrayBuffer = isTaggedBy(kArrayBufferTag)
 
-// eslint-disable-next-line @typescript-eslint/ban-types -- isObject test, nuf said
 export function isObject (value: unknown): value is object {
   const type = typeof value
 
@@ -75,7 +74,6 @@ export function isEmpty (value: unknown): boolean {
     return (value as { size: number }).size === 0
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types -- ECMAScript will accept this, TypeScript won't
   return Object.keys(value as object).length === 0
 }
 
@@ -93,7 +91,6 @@ export function getSize (value: unknown): number {
     return (value as { size: number }).size
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types -- ECMAScript will accept this, TypeScript won't
   return Object.keys(value as object).length
 }
 
@@ -142,7 +139,7 @@ export function hasKey (target: any, key: any): boolean {
   }
 
   if (isWeakMap(target) || isWeakSet(target) || isMap(target) || isSet(target)) {
-    return target.has(key)
+    return target.has(key as object)
   }
 
   if (isObject(target)) {

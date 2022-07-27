@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types -- Some must be used to satisfy basic constraints */
 
 const toStringTag = (value: unknown): string => Object.prototype.toString.call(value)
 

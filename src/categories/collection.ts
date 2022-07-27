@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+
 import { getSize, isEmpty } from '../utils/checkers'
 import { vahvista } from '../vahvista'
 

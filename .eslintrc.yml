@@ -15,7 +15,6 @@ extends:
   - 'plugin:import/warnings'
   - 'plugin:import/errors'
   - 'plugin:promise/recommended'
-  - 'plugin:node/recommended-module'
   - 'standard'
 
 parserOptions:
@@ -118,12 +117,24 @@ rules:
 overrides:
   # Ensure CommonJS modules are checked.
   - files: [ '*.cjs' ]
+    extends:
+      - 'plugin:node/recommended-script'
+    parserOptions:
+      sourceType: script
+    env:
+      node: true
+    rules:
+      node/no-unsupported-features/es-syntax: [ error, { version: '>=14', ignores: [ dynamicImport ] } ]
 
   # Ensure ECMAScript modules are checked, with tuning.
   - files: [ '*.mjs' ]
+    extends:
+      - 'plugin:node/recommended-module'
+    parserOptions:
+      sourceType: module
     rules: &esm-rules
       # Allow modules for the build configuration.
-      node/no-unsupported-features/es-syntax: [ error, { version: '>=12.18.0', ignores: [ modules, dynamicImport ] } ]
+      node/no-unsupported-features/es-syntax: [ error, { version: '>=14', ignores: [ modules, dynamicImport ] } ]
       import/no-commonjs:  error
 
   # Build configuration ES modules.

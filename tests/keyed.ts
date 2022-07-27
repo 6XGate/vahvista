@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+
 import test from 'ava'
 import vahvista from '../src'
 import { passManyFailMany, passOneFailOne } from './utils/macros'

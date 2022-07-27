@@ -6,7 +6,6 @@ interface HasStringTag {
   readonly [Symbol.toStringTag]: string
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function hasStringTag (value: object): value is HasStringTag {
   return Symbol.toStringTag in value
 }

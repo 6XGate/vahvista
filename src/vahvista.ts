@@ -92,8 +92,10 @@ function invokePredicate (this: Predicate, value: any): boolean {
   return true
 }
 
+type PredicateBreakers = 'arguments' | 'caller' | 'length' | 'name'
+
 // eslint-disable-next-line @typescript-eslint/ban-types
-function cleanFunction<T extends Function> (func: Mutable<Partial<T>>): Mutable<Partial<T>> {
+function cleanFunction<T extends Function> (func: Mutable<Partial<T>>): Omit<Mutable<Partial<T>>, PredicateBreakers> {
   delete func.arguments
   delete func.caller
   delete func.length

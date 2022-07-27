@@ -3,6 +3,7 @@
 const temp = typeof undefined
 export type Types = typeof temp
 export type Value = boolean | number | bigint | string
+export type PossibleLiteral = Value | object
 export interface Namable { name: string }
 
 export interface MaybePredicateInterface {

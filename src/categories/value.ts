@@ -1,13 +1,10 @@
-import { isNumber } from '../utils/checkers'
-import type { Value } from '../utils/types'
+import type { PossibleLiteral, Value } from '../utils/types'
 import { vahvista } from '../vahvista'
 
 export const value = {
   isOneOf: vahvista.factory<Value>(
     'oneOf',
-    (...values: readonly Value[]) => _value => (isNumber(_value)
-      ? values.map(Number).includes(_value)
-      : values.includes(_value))
+    (...values: readonly Value[]) => _value => values.includes(_value)
   ),
   isEqual: vahvista.factory<Value>(
     'equal',
@@ -37,8 +34,8 @@ export const value = {
 
 declare module '../vahvista' {
   interface Rules {
-    oneOf: <T>(...values: readonly T[]) => Predicate<T>
-    equal: <T>(target: T) => Predicate<T>
+    oneOf: <T extends readonly PossibleLiteral[]>(...values: T) => Predicate<T[number]>
+    equal: <T extends PossibleLiteral>(target: T) => Predicate<T>
     notEqual: <T>(target: T) => Predicate<T>
     greaterThan: <T>(target: T) => Predicate<T>
     greaterThanOrEqual: <T>(target: T) => Predicate<T>

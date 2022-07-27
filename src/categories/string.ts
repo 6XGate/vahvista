@@ -36,7 +36,7 @@ export const string = {
   contains: vahvista.factory<string>('contains', (target: string) => value => toString(value).includes(target)),
   endsWith: vahvista.factory<string>('endsWith', (target: string) => value => toString(value).endsWith(target)),
   startsWith: vahvista.factory<string>('startsWith', (target: string) => value => toString(value).startsWith(target)),
-  matches: vahvista.factory<string>('matches', (regex: RegExp) => value => regex.test(value))
+  matches: vahvista.factory<string>('matches', (regex: RegExp) => value => regex.test(toString(value)))
 }
 
 declare module '../vahvista' {

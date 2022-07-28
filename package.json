@@ -71,7 +71,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "esm": "^3.2.25",
     "husky": "^8.0.1",
-    "load-json-file": "^6.2.0",
+    "load-json-file": "^7.0.1",
     "nyc": "^15.1.0",
     "pinst": "^3.0.0",
     "pkg-dir": "^5.0.0",

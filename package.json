@@ -21,20 +21,15 @@
     "lib": "src",
     "test": "tests"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/6XGate/vahvista.git"
-  },
+  "repository": "github:6XGate/vahvista",
   "keywords": [
     "javascript",
     "typescript",
     "validation"
   ],
-  "author": "Matthew Holder (https://www.sleepingcats.org/)",
+  "author": "Matthew Holder <sixxgate@hotmail.com> (https://www.sleepingcats.org/)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/6XGate/vahvista/issues"
-  },
+  "bugs": "https://github.com/6XGate/vahvista/issues",
   "homepage": "https://github.com/6XGate/vahvista#readme",
   "engines": {
     "node": ">=14"
@@ -86,6 +81,7 @@
     "tslib": "^2.4.0",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "webpackbar": "^5.0.2"
   }
 }

@@ -4,18 +4,7 @@ import type { Mutable, PredicateInterface } from './utils/types'
 export type Validator<T = any> = (value: T) => boolean
 export type ValidatorFactory<T = any> = (...args: any[]) => (value: T) => boolean
 
-type UnionPredicate<P extends Predicate[]> =
-    P extends [Predicate<infer T0>] ? Predicate<T0> :
-      P extends [Predicate<infer T0>, Predicate<infer T1>] ? Predicate<T0 | T1> :
-        P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>] ? Predicate<T0 | T1 | T2> :
-          P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>] ? Predicate<T0 | T1 | T2 | T3> :
-            P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>, Predicate<infer T4>] ? Predicate<T0 | T1 | T2 | T3 | T4> :
-              P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>, Predicate<infer T4>, Predicate<infer T5>] ? Predicate<T0 | T1 | T2 | T3 | T4 | T5> :
-                P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>, Predicate<infer T4>, Predicate<infer T5>, Predicate<infer T6>] ? Predicate<T0 | T1 | T2 | T3 | T4 | T5 | T6> :
-                  P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>, Predicate<infer T4>, Predicate<infer T5>, Predicate<infer T6>, Predicate<infer T7>] ? Predicate<T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7> :
-                    P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>, Predicate<infer T4>, Predicate<infer T5>, Predicate<infer T6>, Predicate<infer T7>, Predicate<infer T8>] ? Predicate<T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8> :
-                      P extends [Predicate<infer T0>, Predicate<infer T1>, Predicate<infer T2>, Predicate<infer T3>, Predicate<infer T4>, Predicate<infer T5>, Predicate<infer T6>, Predicate<infer T7>, Predicate<infer T8>, Predicate<infer T9>] ? Predicate<T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9> :
-                        Predicate // Too many, any type.
+type UnionPredicate<P extends Predicate[]> = Predicate<PredicateType<P[number]>>
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface Rules<T = any> {

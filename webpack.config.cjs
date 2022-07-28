@@ -1,8 +1,9 @@
 'use strict'
 
-const { resolve, dirname } = require('path')
+const { resolve, dirname } = require('node:path')
 const loadJsonFile = require('load-json-file')
 const packageDirectory = require('pkg-dir')
+const WebpackBarPlugin = require('webpackbar')
 
 /**
  * @param env {Object.<string, *>}
@@ -16,7 +17,7 @@ module.exports = async (env, argv) => {
   const outPath = resolve(__dirname, 'dist')
 
   /** @type {import('webpack').Configuration} */
-  const config = {
+  const baseConfig = (makeDefinitions = false) => ({
     entry: { index: './src/index.ts' },
     module: {
       rules: [
@@ -28,15 +29,13 @@ module.exports = async (env, argv) => {
               loader: 'ts-loader',
               options: {
                 onlyCompileBundledFiles: true,
+                // Define build compile options since the project options are required for the test runner
                 compilerOptions: {
                   module: 'esnext',
                   target: 'es2015',
                   noEmitOnError: true,
-                  declaration: true,
-                  declarationDir: dirname(typesPath),
-                  // include: ['./src/**/*.ts'],
-                  // exclude: ['./test/**/*'],
-                  // outDir: outPath,
+                  declaration: makeDefinitions,
+                  declarationDir: makeDefinitions ? dirname(typesPath) : undefined,
                   rootDir: './src/'
                 }
               }
@@ -47,12 +46,19 @@ module.exports = async (env, argv) => {
       ]
     },
     resolve: { extensions: ['.tsx', '.ts', '.js'] },
+    plugins: [
+      // Fancy progress bars.
+      new WebpackBarPlugin({ profile: true })
+    ],
+    // Only show compiled assets and build time.
+    stats: { preset: 'errors-warnings', assets: true, colors: true },
+    // Source maps
     devtool: 'source-map'
-  }
+  })
 
   return [
     {
-      ...config,
+      ...baseConfig(),
       name: 'CommonJS',
       target: 'node14',
       output: {
@@ -63,7 +69,7 @@ module.exports = async (env, argv) => {
       }
     },
     {
-      ...config,
+      ...baseConfig(true),
       name: 'ES6 Modules',
       target: 'es2020',
       output: {
@@ -77,7 +83,7 @@ module.exports = async (env, argv) => {
       }
     },
     {
-      ...config,
+      ...baseConfig(),
       name: 'IIFE',
       target: 'web',
       output: {

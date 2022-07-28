@@ -63,6 +63,6 @@ export const object = {
 declare module '../vahvista' {
   interface Rules {
     shape: <S extends Shape>(shape: S) => Predicate<TypeBasedOnShape<S>>
-    dict: <T>(predicate: Predicate) => Predicate<{ [key: string]: T }>
+    dict: <T>(predicate: Predicate<T>) => Predicate<{ [key: string]: T }>
   }
 }

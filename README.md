@@ -26,26 +26,26 @@ If you want to use _vahvista_ with a bundler like [webpack](https://webpack.js.o
 [rollup](https://rollupjs.org/), or with [node.js](://nodejs.org/);
 
 - Install _vahvista_ with your favorite package manager;
-    - [npm](https://www.npmjs.com/); `npm install --save-dev vahvista`.
-    - [yarn](https://yarnpkg.com/); `yarn add vahvista --dev`
-    - [pnpm](https://pnpm.js.org/); `pnpm add -D vahvista`
+    - [npm](https://www.npmjs.com/); `npm install --save-dev @sixxgate/vahvista`.
+    - [yarn](https://yarnpkg.com/); `yarn add @sixxgate/vahvista --dev`
+    - [pnpm](https://pnpm.js.org/); `pnpm add -D @sixxgate/vahvista`
 
 #### Browser ready or CDN build
 
 If you wish to use _vahvista_ in an environment that does not use a bundler or modules; you have two options
 
 - Download the `vahvista.iife.js` file from the latest release and include it in your project.
-- Link to it from UNPKG CDN `https://unpkg.com/vahvista/dist/index.iife.js` or
-  `https://unpkg.com/vahvista@{version}/dist/index.iife.js`. See [UNPKG](https://unpkg.com/) for more versioning
-  options.
-- Link to it from JSDELIVR CDN `https://cdn.jsdelivr.net/npm/vahvista/dist/index.iife.js` or
-  `https://cdn.jsdelivr.net/npm/vahvista@{version}/dist/index.iife.js`. See [JSDELIVR](https://www.jsdelivr.com/)
-  for more versioning options.
+- Link to it from UNPKG CDN `https://unpkg.com/@sixxgate/vahvista/dist/index.iife.js` or
+  `https://unpkg.com/@sixxgate/vahvista@{version}/dist/index.iife.js`. See [UNPKG](https://unpkg.com/) for more
+  versioning options.
+- Link to it from JSDELIVR CDN `https://cdn.jsdelivr.net/npm/@sixxgate/vahvista/dist/index.iife.js` or
+  `https://cdn.jsdelivr.net/npm/@sixxgate/vahvista@{version}/dist/index.iife.js`. See
+  [JSDELIVR](https://www.jsdelivr.com/) for more versioning options.
 
 ### Basic validation
 
-To use _vahvista_, simply `import vahvista from "vahvista";`. Or you may use a shorter name with
-`import v from "vahvista";`  
+To use _vahvista_, simply `import vahvista from "@sixxgate/vahvista";`. Or you may use a shorter name with
+`import v from "@sixxgate/vahvista";`  
 
 _vahvista_ is relatively simple to use for validation. It does provide any messaging feedback, but does allow you to
 chain a set of rules together and verify that a value passes those rules.
@@ -67,7 +67,7 @@ itself.
 
 ### Predicates
 
-A predicate is any object from _vahvista_ than can be called to verify a value. Predicates may also be chained to form
+A predicate is any object from _vahvista_ that can be called to verify a value. Predicates may also be chained to form
 new predicates that will ensure a value is verified by all rules in the predicate chain.
 
 ## Rules

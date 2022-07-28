@@ -1,5 +1,5 @@
 {
-  "name": "vahvista",
+  "name": "@sixxgate/vahvista",
   "version": "1.3.0",
   "description": "Simple composable validation framework",
   "private": false,

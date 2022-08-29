@@ -1,5 +1,7 @@
 # vahvista
 
+## _vahvista_ is being deprecated in favor of [zod](https://github.com/colinhacks/zod) or [one of its alternatives](https://github.com/colinhacks/zod#comparison)
+
 Simple composable validation framework
 
 ![Lint test](https://github.com/6XGate/vahvista/workflows/Lint%20test/badge.svg?branch=develop)
